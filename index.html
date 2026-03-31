@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Flor Indispensable · Poema Eterno</title>
-    <!-- Google Fonts + Font Awesome 6 (CDN ligero) -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -27,72 +26,134 @@
             overflow-x: hidden;
         }
 
-        /* sutiles pétalos flotantes (efecto atmosférico) */
-        .floating-petal {
+        /* === PARTÍCULAS FLOTANTES MEJORADAS === */
+        .particle {
             position: fixed;
             pointer-events: none;
-            background: rgba(245, 210, 190, 0.2);
-            border-radius: 80% 20% 70% 30% / 60% 50% 50% 40%;
-            filter: blur(3px);
+            background: radial-gradient(circle, rgba(255, 220, 180, 0.6), rgba(255, 180, 140, 0));
+            border-radius: 50%;
+            filter: blur(2px);
             z-index: 0;
-            animation: floatPetal 20s infinite ease-in-out;
+            animation: floatParticle 15s infinite ease-in-out;
         }
 
-        @keyframes floatPetal {
-            0% { transform: translateY(0vh) rotate(0deg); opacity: 0; }
-            20% { opacity: 0.6; }
-            80% { opacity: 0.4; }
-            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-20vh) rotate(360deg);
+                opacity: 0;
+            }
         }
 
-        /* contenedor principal elegante */
+        /* === CONTENEDOR CON GLOW PULSANTE === */
         .poem-card {
             position: relative;
             z-index: 10;
             max-width: 820px;
             width: 100%;
-            background: rgba(15, 12, 30, 0.55);
-            backdrop-filter: blur(10px);
+            background: rgba(15, 12, 30, 0.65);
+            backdrop-filter: blur(12px);
             border-radius: 3rem;
             padding: 2.5rem 2rem 2.2rem;
-            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 220, 180, 0.1) inset;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 220, 180, 0.15) inset;
             transition: all 0.3s ease;
-            border: 1px solid rgba(230, 200, 170, 0.2);
+            border: 1px solid rgba(230, 200, 170, 0.25);
+            animation: cardGlow 4s ease-in-out infinite;
         }
 
-        /* zona del poema con animaciones */
+        @keyframes cardGlow {
+            0%, 100% {
+                box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 220, 180, 0.15) inset;
+            }
+            50% {
+                box-shadow: 0 25px 55px rgba(0, 0, 0, 0.6), 0 0 0 2px rgba(255, 200, 150, 0.25) inset;
+            }
+        }
+
+        /* === ÍCONO FLORAL QUE CRECE === */
+        .floral-icon {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            transition: all 0.4s ease;
+            filter: drop-shadow(0 0 4px rgba(255, 200, 150, 0.5));
+        }
+
+        .floral-icon i {
+            transition: transform 0.3s ease;
+            color: #eacd92;
+        }
+
+        /* === ZONA DEL POEMA === */
         .verse-stage {
-            min-height: 380px;
+            min-height: 420px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .verse-text {
-            font-size: clamp(1.6rem, 5vw, 2.8rem);
+            font-size: clamp(1.8rem, 5.5vw, 3rem);
             font-weight: 500;
             line-height: 1.45;
             text-align: center;
             color: #fef3e2;
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
             letter-spacing: -0.01em;
-            transition: opacity 0.45s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.4s ease;
+            transition: opacity 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.4s ease, filter 0.4s ease;
             word-break: break-word;
             font-family: 'Cormorant Garamond', serif;
             white-space: pre-line;
         }
 
-        /* estilo especial para el poema completo */
+        /* estilo para versos de anticipación (cursiva elegante) */
+        .verse-text.anticipation {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            font-size: clamp(1.6rem, 5vw, 2.6rem);
+        }
+
+        /* estilo para el poema completo */
         .verse-text.full-poem {
-            font-size: clamp(1.2rem, 4vw, 1.8rem);
-            line-height: 1.6;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.2rem, 4vw, 1.7rem);
+            line-height: 1.7;
             text-align: left;
             max-width: 90%;
             margin: 0 auto;
+            font-weight: 400;
         }
 
-        /* animación de entrada */
+        /* animación de entrada en cascada para el poema final */
+        .verse-text.full-poem.cascade span {
+            display: inline-block;
+            animation: fadeInUp 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .verse-text.animate-in {
             opacity: 1;
             transform: translateY(0);
@@ -101,14 +162,10 @@
         .verse-text.animate-out {
             opacity: 0;
             transform: translateY(12px);
+            filter: blur(4px);
         }
 
-        .verse-text {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* barra de progreso poética */
+        /* === BARRA DE PROGRESO CON GRADIENTE DINÁMICO === */
         .progress-area {
             margin: 1rem 0 2rem 0;
         }
@@ -116,7 +173,7 @@
         .progress-track {
             background: rgba(220, 190, 150, 0.2);
             border-radius: 40px;
-            height: 3px;
+            height: 4px;
             width: 100%;
             overflow: hidden;
         }
@@ -124,25 +181,32 @@
         .progress-fill {
             width: 0%;
             height: 100%;
-            background: linear-gradient(90deg, #e7c8a0, #f3dbb5);
+            background: linear-gradient(90deg, #e7c8a0, #f3dbb5, #e6b8a0);
+            background-size: 200% auto;
             border-radius: 40px;
-            transition: width 0.4s ease-out;
-            box-shadow: 0 0 6px #ffdfb0;
+            transition: width 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            box-shadow: 0 0 8px #ffdfb0;
+            animation: shimmer 2s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
         }
 
         .verse-counter {
             text-align: center;
             margin-top: 0.6rem;
             font-family: 'Inter', sans-serif;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
             font-weight: 300;
             color: #cfc6b0;
             text-transform: uppercase;
             opacity: 0.7;
         }
 
-        /* botones elegantes */
+        /* === BOTONES CON EFECTO RIPPLE === */
         .controls {
             display: flex;
             flex-wrap: wrap;
@@ -166,37 +230,61 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .ctrl-btn i {
-            font-size: 1.1rem;
-            color: #f3d9b1;
+        /* efecto ripple */
+        .ctrl-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 220, 180, 0.4);
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s;
+        }
+
+        .ctrl-btn:active::after {
+            width: 120px;
+            height: 120px;
         }
 
         .ctrl-btn:hover:not(:disabled) {
-            background: rgba(90, 70, 120, 0.7);
+            background: rgba(110, 80, 130, 0.7);
             border-color: #eacd92;
             transform: translateY(-2px);
-            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
-        }
-
-        .ctrl-btn:active:not(:disabled) {
-            transform: translateY(1px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
         }
 
         .ctrl-btn:disabled {
-            opacity: 0.4;
+            opacity: 0.35;
             cursor: not-allowed;
-            filter: grayscale(0.1);
         }
 
         .auto-active {
             background: #c7a56e40;
             border-color: #fad896;
-            box-shadow: 0 0 8px rgba(250, 200, 120, 0.4);
+            box-shadow: 0 0 12px rgba(250, 200, 120, 0.5);
         }
 
-        /* footer sutil */
+        /* === FLOR QUE CRECE === */
+        .growing-flower {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            transition: all 0.3s ease;
+        }
+
+        .growing-flower i {
+            transition: all 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+            display: inline-block;
+        }
+
+        /* === FOOTER === */
         .signature {
             text-align: center;
             margin-top: 2rem;
@@ -204,47 +292,58 @@
             font-family: 'Inter', sans-serif;
             color: #a7987c;
             letter-spacing: 1px;
-            opacity: 0.6;
+            opacity: 0.5;
+            transition: opacity 0.3s;
         }
 
-        /* adaptación móvil */
+        .signature:hover {
+            opacity: 0.8;
+        }
+
         @media (max-width: 560px) {
             .poem-card {
-                padding: 1.8rem 1.2rem;
+                padding: 1.5rem 1.2rem;
+            }
+            .verse-stage {
+                min-height: 360px;
             }
             .ctrl-btn {
                 padding: 0.55rem 1rem;
                 font-size: 0.85rem;
             }
-            .verse-stage {
-                min-height: 320px;
+        }
+
+        /* animación de carga inicial */
+        @keyframes bloom {
+            0% {
+                transform: scale(0) rotate(-30deg);
+                opacity: 0;
             }
-            .verse-text.full-poem {
-                font-size: clamp(1rem, 3.5vw, 1.4rem);
+            60% {
+                transform: scale(1.2) rotate(5deg);
+            }
+            100% {
+                transform: scale(1) rotate(0);
+                opacity: 1;
             }
         }
 
-        /* efecto sutil de brillo en el último paso */
-        .verse-text.final-glow {
-            text-shadow: 0 0 12px rgba(255, 215, 140, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3);
-            transition: text-shadow 0.6s;
+        .flower-bloom {
+            animation: bloom 0.8s cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
         }
     </style>
 </head>
 <body>
 
-<!-- pétalos flotantes decorativos -->
-<div class="floating-petal" style="width: 40px; height: 35px; left: 5%; top: 80%; animation-duration: 24s;"></div>
-<div class="floating-petal" style="width: 60px; height: 50px; left: 85%; top: 15%; animation-duration: 28s; animation-delay: -5s;"></div>
-<div class="floating-petal" style="width: 30px; height: 28px; left: 20%; top: 40%; animation-duration: 19s; animation-delay: -2s;"></div>
-<div class="floating-petal" style="width: 50px; height: 45px; left: 70%; top: 70%; animation-duration: 32s; animation-delay: -10s;"></div>
-<div class="floating-petal" style="width: 25px; height: 22px; left: 45%; top: 90%; animation-duration: 22s; animation-delay: -7s;"></div>
+<div id="particlesContainer"></div>
 
 <main class="poem-card">
+    <div class="growing-flower" id="flowerIcon">
+        <i class="fas fa-seedling" style="color: #eacd92;"></i>
+    </div>
+
     <div class="verse-stage">
-        <div id="verseDisplay" class="verse-text animate-in">
-            <!-- el contenido se inyecta desde JS -->
-        </div>
+        <div id="verseDisplay" class="verse-text animate-in"></div>
     </div>
 
     <div class="progress-area">
@@ -255,10 +354,10 @@
     </div>
 
     <div class="controls">
-        <button class="ctrl-btn" id="prevBtn" aria-label="Verso anterior"><i class="fas fa-chevron-left"></i> <span>Anterior</span></button>
-        <button class="ctrl-btn" id="resetBtn" aria-label="Reiniciar poema"><i class="fas fa-leaf"></i> <span>Renacer</span></button>
-        <button class="ctrl-btn" id="nextBtn" aria-label="Siguiente verso"><span>Siguiente</span> <i class="fas fa-chevron-right"></i></button>
-        <button class="ctrl-btn" id="autoBtn" aria-label="Reproducción automática"><i class="fas fa-play"></i> <span>Auto</span></button>
+        <button class="ctrl-btn" id="prevBtn"><i class="fas fa-chevron-left"></i> <span>Anterior</span></button>
+        <button class="ctrl-btn" id="resetBtn"><i class="fas fa-leaf"></i> <span>Renacer</span></button>
+        <button class="ctrl-btn" id="nextBtn"><span>Siguiente</span> <i class="fas fa-chevron-right"></i></button>
+        <button class="ctrl-btn" id="autoBtn"><i class="fas fa-play"></i> <span>Auto</span></button>
     </div>
     <div class="signature">
         ✦ un viaje hacia la flor eterna ✦
@@ -266,9 +365,7 @@
 </main>
 
 <script>
-    // ------------------------------
-    // EXPERIENCIA SECUENCIAL: Pasos que anticipan + poema completo al final
-    // ------------------------------
+    // ==================== POEMA SECUENCIAL ====================
     const verses = [
         "Una flor está por nacer...",
         "En el silencio, un pétalo se abre.",
@@ -297,7 +394,7 @@ mi flor eterna, mi todo puro.`
     let autoInterval = null;
     let isAutoActive = false;
 
-    // DOM elements
+    // Elementos DOM
     const verseDisplay = document.getElementById('verseDisplay');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
@@ -305,40 +402,99 @@ mi flor eterna, mi todo puro.`
     const autoBtn = document.getElementById('autoBtn');
     const progressFill = document.getElementById('progressFill');
     const verseCounterSpan = document.getElementById('verseCounter');
+    const flowerIcon = document.getElementById('flowerIcon');
 
-    // función para actualizar barra de progreso y contador
+    // ==================== PARTÍCULAS FLOTANTES ====================
+    function createParticles() {
+        const container = document.getElementById('particlesContainer');
+        const particleCount = 35;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            const size = Math.random() * 8 + 3;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.animationDelay = `${Math.random() * 20}s`;
+            particle.style.animationDuration = `${Math.random() * 20 + 12}s`;
+            particle.style.opacity = Math.random() * 0.4 + 0.1;
+            container.appendChild(particle);
+        }
+    }
+
+    // ==================== FLOR QUE CRECE CON CADA PASO ====================
+    function updateFlower() {
+        const progress = (currentIndex + 1) / TOTAL_VERSES;
+        const icon = flowerIcon.querySelector('i');
+        const scale = 0.8 + (progress * 0.8);
+        const rotation = progress * 180;
+        
+        if (currentIndex === TOTAL_VERSES - 1) {
+            icon.className = 'fas fa-rose';
+            icon.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
+            icon.style.color = '#f3b3a0';
+            icon.style.filter = 'drop-shadow(0 0 8px #ffb88c)';
+        } else if (currentIndex >= 3) {
+            icon.className = 'fas fa-fan';
+            icon.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
+            icon.style.color = '#eacd92';
+        } else if (currentIndex >= 1) {
+            icon.className = 'fas fa-leaf';
+            icon.style.transform = `scale(${scale}) rotate(${rotation / 2}deg)`;
+        } else {
+            icon.className = 'fas fa-seedling';
+            icon.style.transform = `scale(${scale})`;
+        }
+    }
+
+    // ==================== ACTUALIZAR PROGRESO ====================
     function updateProgressAndCounter() {
         const percent = ((currentIndex + 1) / TOTAL_VERSES) * 100;
         progressFill.style.width = `${percent}%`;
         verseCounterSpan.innerText = `${currentIndex + 1} / ${TOTAL_VERSES}`;
+        updateFlower();
     }
 
-    // aplicar estilo especial al poema completo
-    function applyPoemStyle() {
+    // ==================== APLICAR ESTILO SEGÚN EL TIPO DE VERSO ====================
+    function applyVerseStyle() {
+        verseDisplay.classList.remove('anticipation', 'full-poem');
+        
         if (currentIndex === TOTAL_VERSES - 1) {
             verseDisplay.classList.add('full-poem');
-            verseDisplay.classList.add('final-glow');
-        } else {
-            verseDisplay.classList.remove('full-poem');
-            verseDisplay.classList.remove('final-glow');
+            // efecto cascada para el poema completo
+            applyCascadeEffect();
+        } else if (currentIndex >= 0 && currentIndex <= 4) {
+            verseDisplay.classList.add('anticipation');
         }
     }
 
-    // actualiza el estado de los botones
+    // ==================== EFECTO CASCADA PARA EL POEMA FINAL ====================
+    function applyCascadeEffect() {
+        const text = verseDisplay.innerText;
+        if (currentIndex === TOTAL_VERSES - 1 && text.includes('\n')) {
+            // Dividir el texto en versos y envolver cada línea en un span
+            const lines = text.split('\n');
+            const wrappedLines = lines.map((line, idx) => 
+                `<span style="display: block; animation-delay: ${idx * 0.05}s;">${line || '&nbsp;'}</span>`
+            ).join('');
+            verseDisplay.innerHTML = wrappedLines;
+            verseDisplay.classList.add('cascade');
+        }
+    }
+
+    // ==================== BOTONES ====================
     function updateButtonsState() {
         prevBtn.disabled = (currentIndex === 0);
         
         if (currentIndex === TOTAL_VERSES - 1) {
             nextBtn.disabled = true;
-            if (isAutoActive) {
-                stopAutoPlay();
-            }
+            if (isAutoActive) stopAutoPlay();
         } else {
             nextBtn.disabled = false;
         }
     }
 
-    // detener auto-play
     function stopAutoPlay() {
         if (autoInterval) {
             clearInterval(autoInterval);
@@ -349,12 +505,9 @@ mi flor eterna, mi todo puro.`
         autoBtn.innerHTML = '<i class="fas fa-play"></i> <span>Auto</span>';
     }
 
-    // iniciar auto-play
     function startAutoPlay() {
         if (autoInterval) stopAutoPlay();
-        if (currentIndex === TOTAL_VERSES - 1) {
-            return;
-        }
+        if (currentIndex === TOTAL_VERSES - 1) return;
         isAutoActive = true;
         autoBtn.classList.add('auto-active');
         autoBtn.innerHTML = '<i class="fas fa-pause"></i> <span>Auto</span>';
@@ -363,30 +516,24 @@ mi flor eterna, mi todo puro.`
             if (currentIndex < TOTAL_VERSES - 1) {
                 goToNextVerse();
             } else {
-                if (currentIndex === TOTAL_VERSES - 1) {
-                    stopAutoPlay();
-                }
+                stopAutoPlay();
             }
-        }, 4800); // ritmo más pausado para la anticipación
+        }, 5000);
     }
 
-    // toggle auto
     function toggleAutoPlay() {
         if (isAutoActive) {
             stopAutoPlay();
         } else {
-            if (currentIndex === TOTAL_VERSES - 1) {
-                return;
-            }
-            startAutoPlay();
+            if (currentIndex !== TOTAL_VERSES - 1) startAutoPlay();
         }
     }
 
-    // función central para cambiar el verso con animación
+    // ==================== ANIMACIÓN PRINCIPAL ====================
     function changeVerseWithAnimation(newIndex) {
-        if (isAnimating) return Promise.reject('Animating');
-        if (newIndex === currentIndex) return Promise.resolve();
-        if (newIndex < 0 || newIndex >= TOTAL_VERSES) return Promise.reject('Index out of range');
+        if (isAnimating) return;
+        if (newIndex === currentIndex) return;
+        if (newIndex < 0 || newIndex >= TOTAL_VERSES) return;
 
         isAnimating = true;
         
@@ -399,7 +546,7 @@ mi flor eterna, mi todo puro.`
             
             updateProgressAndCounter();
             updateButtonsState();
-            applyPoemStyle();
+            applyVerseStyle();
             
             verseDisplay.classList.remove('animate-out');
             verseDisplay.classList.add('animate-in');
@@ -409,17 +556,14 @@ mi flor eterna, mi todo puro.`
                 if (isAutoActive && currentIndex === TOTAL_VERSES - 1) {
                     stopAutoPlay();
                 }
-            }, 100);
-        }, 220);
+            }, 120);
+        }, 250);
     }
 
-    // Navegación
     function goToNextVerse() {
         if (isAnimating) return;
         if (currentIndex + 1 < TOTAL_VERSES) {
             changeVerseWithAnimation(currentIndex + 1);
-        } else {
-            if (isAutoActive) stopAutoPlay();
         }
     }
 
@@ -433,13 +577,11 @@ mi flor eterna, mi todo puro.`
     function resetPoem() {
         if (isAnimating) return;
         if (currentIndex === 0) return;
-        if (isAutoActive) {
-            stopAutoPlay();
-        }
+        if (isAutoActive) stopAutoPlay();
         changeVerseWithAnimation(0);
     }
 
-    // Eventos de teclado
+    // ==================== TECLADO ====================
     function handleKeydown(e) {
         if (e.key === 'ArrowLeft') {
             e.preventDefault();
@@ -456,15 +598,27 @@ mi flor eterna, mi todo puro.`
         }
     }
 
-    // inicializar
+    // ==================== ANIMACIÓN DE CARGA (FLOR QUE FLORECE) ====================
+    function initialBloom() {
+        const flower = flowerIcon.querySelector('i');
+        flower.classList.add('flower-bloom');
+        setTimeout(() => {
+            flower.classList.remove('flower-bloom');
+        }, 800);
+    }
+
+    // ==================== INICIALIZAR ====================
     function init() {
+        createParticles();
+        
         verseDisplay.innerText = verses[0];
         currentIndex = 0;
         updateProgressAndCounter();
         updateButtonsState();
-        applyPoemStyle();
+        applyVerseStyle();
         verseDisplay.classList.add('animate-in');
-        verseDisplay.classList.remove('animate-out');
+        
+        initialBloom();
         
         prevBtn.addEventListener('click', () => {
             if (isAutoActive) stopAutoPlay();
@@ -478,10 +632,7 @@ mi flor eterna, mi todo puro.`
             if (isAutoActive) stopAutoPlay();
             resetPoem();
         });
-        autoBtn.addEventListener('click', () => {
-            toggleAutoPlay();
-        });
-        
+        autoBtn.addEventListener('click', toggleAutoPlay);
         window.addEventListener('keydown', handleKeydown);
     }
     
