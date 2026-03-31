@@ -12,7 +12,6 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            user-select: none; /* solo para evitar selección accidental, no afecta lectura */
         }
 
         body {
@@ -63,7 +62,7 @@
 
         /* zona del poema con animaciones */
         .verse-stage {
-            min-height: 280px;
+            min-height: 380px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -71,9 +70,9 @@
         }
 
         .verse-text {
-            font-size: clamp(1.8rem, 6vw, 3.2rem);
+            font-size: clamp(1.6rem, 5vw, 2.8rem);
             font-weight: 500;
-            line-height: 1.35;
+            line-height: 1.45;
             text-align: center;
             color: #fef3e2;
             text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
@@ -81,9 +80,19 @@
             transition: opacity 0.45s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.4s ease;
             word-break: break-word;
             font-family: 'Cormorant Garamond', serif;
+            white-space: pre-line;
         }
 
-        /* animación de entrada (fade + leve desplazamiento) */
+        /* estilo especial para el poema completo */
+        .verse-text.full-poem {
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            line-height: 1.6;
+            text-align: left;
+            max-width: 90%;
+            margin: 0 auto;
+        }
+
+        /* animación de entrada */
         .verse-text.animate-in {
             opacity: 1;
             transform: translateY(0);
@@ -94,7 +103,6 @@
             transform: translateY(12px);
         }
 
-        /* estado base */
         .verse-text {
             opacity: 1;
             transform: translateY(0);
@@ -158,7 +166,6 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            backdrop-filter: blur(6px);
         }
 
         .ctrl-btn i {
@@ -181,11 +188,6 @@
             opacity: 0.4;
             cursor: not-allowed;
             filter: grayscale(0.1);
-        }
-
-        .btn-primary {
-            background: rgba(140, 100, 80, 0.5);
-            border-color: #e0bc87;
         }
 
         .auto-active {
@@ -215,25 +217,23 @@
                 font-size: 0.85rem;
             }
             .verse-stage {
-                min-height: 220px;
+                min-height: 320px;
+            }
+            .verse-text.full-poem {
+                font-size: clamp(1rem, 3.5vw, 1.4rem);
             }
         }
 
-        /* efecto sutil de brillo en el último verso */
+        /* efecto sutil de brillo en el último paso */
         .verse-text.final-glow {
-            text-shadow: 0 0 8px rgba(255, 215, 140, 0.7), 0 2px 8px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 0 12px rgba(255, 215, 140, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3);
             transition: text-shadow 0.6s;
-        }
-
-        /* ocultar desbordes */
-        .no-scrollbar {
-            scrollbar-width: thin;
         }
     </style>
 </head>
 <body>
 
-<!-- pétalos flotantes decorativos generados dinámicamente con JS (5 elementos) -->
+<!-- pétalos flotantes decorativos -->
 <div class="floating-petal" style="width: 40px; height: 35px; left: 5%; top: 80%; animation-duration: 24s;"></div>
 <div class="floating-petal" style="width: 60px; height: 50px; left: 85%; top: 15%; animation-duration: 28s; animation-delay: -5s;"></div>
 <div class="floating-petal" style="width: 30px; height: 28px; left: 20%; top: 40%; animation-duration: 19s; animation-delay: -2s;"></div>
@@ -243,22 +243,7 @@
 <main class="poem-card">
     <div class="verse-stage">
         <div id="verseDisplay" class="verse-text animate-in">
-            <!-- el verso se inyecta desde JS -->
-            Flor indispensable… 
-            Flor única e imprescindible,
-            en una vida ajena y gastada,
-            consumida por relatos sin fin,
-            ocurrencias incalculables, callada.
-
-            Tanto así que la vida calmó,
-            aguas opacas y llenas de pena,
-            por consecuencia de ti, que llegó,
-            flor transparente, manantial serena.
-
-            Eres paz en mi caos profundo,
-            luz que aclara lo oscuro y confuso,
-            indispensable en este mundo,
-            mi flor eterna, mi todo puro.
+            <!-- el contenido se inyecta desde JS -->
         </div>
     </div>
 
@@ -276,25 +261,38 @@
         <button class="ctrl-btn" id="autoBtn" aria-label="Reproducción automática"><i class="fas fa-play"></i> <span>Auto</span></button>
     </div>
     <div class="signature">
-        ✦ poema del alma · flor eterna ✦
+        ✦ un viaje hacia la flor eterna ✦
     </div>
 </main>
 
 <script>
     // ------------------------------
-    // POEMA: estrofas/versos secuenciales que culminan en la frase final
+    // EXPERIENCIA SECUENCIAL: Pasos que anticipan + poema completo al final
     // ------------------------------
     const verses = [
-        "En el jardín de mis silencios, brotas tú.",
-        "Pétalo a pétalo, abres caminos de luz.",
-        "Tu aroma, recuerdo que el alma susurra.",
-        "Eres el centro de mi primavera perpetua.",
-        "Sin ti, el tiempo se deshoja en ausencia.",
-        "Flor indispensable… mi flor eterna, mi todo puro"
+        "Una flor está por nacer...",
+        "En el silencio, un pétalo se abre.",
+        "Su aroma empieza a tejer memorias.",
+        "La esperanza florece en lo profundo.",
+        "Pronto, el poema se revelará...",
+        `Flor indispensable… Flor única e imprescindible,
+en una vida ajena y gastada,
+consumida por relatos sin fin,
+ocurrencias incalculables, callada.
+
+Tanto así que la vida calmó,
+aguas opacas y llenas de pena,
+por consecuencia de ti, que llegó,
+flor transparente, manantial serena.
+
+Eres paz en mi caos profundo,
+luz que aclara lo oscuro y confuso,
+indispensable en este mundo,
+mi flor eterna, mi todo puro.`
     ];
 
     const TOTAL_VERSES = verses.length;
-    let currentIndex = 0;            // 0-index
+    let currentIndex = 0;
     let isAnimating = false;
     let autoInterval = null;
     let isAutoActive = false;
@@ -315,26 +313,23 @@
         verseCounterSpan.innerText = `${currentIndex + 1} / ${TOTAL_VERSES}`;
     }
 
-    // manejo de glow final (efecto especial en último verso)
-    function applyFinalGlow() {
+    // aplicar estilo especial al poema completo
+    function applyPoemStyle() {
         if (currentIndex === TOTAL_VERSES - 1) {
+            verseDisplay.classList.add('full-poem');
             verseDisplay.classList.add('final-glow');
         } else {
+            verseDisplay.classList.remove('full-poem');
             verseDisplay.classList.remove('final-glow');
         }
     }
 
-    // actualiza el estado de los botones (prev/next disabled según límites)
+    // actualiza el estado de los botones
     function updateButtonsState() {
-        if (currentIndex === 0) {
-            prevBtn.disabled = true;
-        } else {
-            prevBtn.disabled = false;
-        }
-
+        prevBtn.disabled = (currentIndex === 0);
+        
         if (currentIndex === TOTAL_VERSES - 1) {
             nextBtn.disabled = true;
-            // si el auto está activo y llegamos al final, detener automáticamente
             if (isAutoActive) {
                 stopAutoPlay();
             }
@@ -343,58 +338,51 @@
         }
     }
 
-    // detener auto-play, limpiar intervalo y cambiar UI del botón
+    // detener auto-play
     function stopAutoPlay() {
         if (autoInterval) {
             clearInterval(autoInterval);
             autoInterval = null;
         }
         isAutoActive = false;
-        // restaurar estilo del botón
         autoBtn.classList.remove('auto-active');
         autoBtn.innerHTML = '<i class="fas fa-play"></i> <span>Auto</span>';
     }
 
-    // iniciar auto-play (avanza cada 4.2 segundos, ritmo poético)
+    // iniciar auto-play
     function startAutoPlay() {
         if (autoInterval) stopAutoPlay();
-        // si ya estamos en el último verso, no iniciar auto
         if (currentIndex === TOTAL_VERSES - 1) {
-            // no activar porque no hay siguiente
             return;
         }
         isAutoActive = true;
         autoBtn.classList.add('auto-active');
         autoBtn.innerHTML = '<i class="fas fa-pause"></i> <span>Auto</span>';
         autoInterval = setInterval(() => {
-            // si la animación está bloqueada o ya en último, no avanzamos
             if (isAnimating) return;
             if (currentIndex < TOTAL_VERSES - 1) {
                 goToNextVerse();
             } else {
-                // llegó al final mientras estaba activo -> detener
                 if (currentIndex === TOTAL_VERSES - 1) {
                     stopAutoPlay();
                 }
             }
-        }, 4200);
+        }, 4800); // ritmo más pausado para la anticipación
     }
 
-    // toggle auto: activar/desactivar
+    // toggle auto
     function toggleAutoPlay() {
         if (isAutoActive) {
             stopAutoPlay();
         } else {
-            // solo si no está en el último verso se puede iniciar auto, sino no pasa nada
             if (currentIndex === TOTAL_VERSES - 1) {
-                // opción elegante: no activar auto, pero podemos notificar visualmente con un leve "shake"? no necesario
                 return;
             }
             startAutoPlay();
         }
     }
 
-    // función central para cambiar el verso con animación suave (fade-out / fade-in)
+    // función central para cambiar el verso con animación
     function changeVerseWithAnimation(newIndex) {
         if (isAnimating) return Promise.reject('Animating');
         if (newIndex === currentIndex) return Promise.resolve();
@@ -402,52 +390,39 @@
 
         isAnimating = true;
         
-        // 1. aplicar fade-out al texto actual
         verseDisplay.classList.remove('animate-in');
         verseDisplay.classList.add('animate-out');
         
-        // 2. esperar la mitad de la transición para cambiar el contenido
         setTimeout(() => {
-            // actualizar índice y contenido
             currentIndex = newIndex;
             verseDisplay.innerText = verses[currentIndex];
             
-            // actualizar barra, contador y estados botones
             updateProgressAndCounter();
             updateButtonsState();
-            applyFinalGlow();
+            applyPoemStyle();
             
-            // 3. quitar clase out y aplicar animate-in para fade-in elegante
             verseDisplay.classList.remove('animate-out');
             verseDisplay.classList.add('animate-in');
             
-            // pequeña espera para completar la animación visual, luego liberar bloqueo
             setTimeout(() => {
                 isAnimating = false;
-                // Si después del cambio, el auto-play estaba activo y hemos llegado al final, detener
-                if (isAutoActive && currentIndex === TOTAL_VERSES - 1) {
-                    stopAutoPlay();
-                }
-                // Si el auto-play está activo pero ahora estamos en el final, también detenemos antes.
                 if (isAutoActive && currentIndex === TOTAL_VERSES - 1) {
                     stopAutoPlay();
                 }
             }, 100);
-        }, 220); // tiempo justo para percibir desvanecimiento
+        }, 220);
     }
 
-    // Navegación: siguiente
+    // Navegación
     function goToNextVerse() {
         if (isAnimating) return;
         if (currentIndex + 1 < TOTAL_VERSES) {
             changeVerseWithAnimation(currentIndex + 1);
         } else {
-            // si es el último, no hace nada pero se deshabilita el botón
             if (isAutoActive) stopAutoPlay();
         }
     }
 
-    // Navegación: anterior
     function goToPrevVerse() {
         if (isAnimating) return;
         if (currentIndex - 1 >= 0) {
@@ -455,23 +430,21 @@
         }
     }
 
-    // Reiniciar: volver al primer verso
     function resetPoem() {
         if (isAnimating) return;
         if (currentIndex === 0) return;
-        // Si auto está activo, se desactiva porque el usuario toma control
         if (isAutoActive) {
             stopAutoPlay();
         }
         changeVerseWithAnimation(0);
     }
 
-    // Eventos de teclado (flechas izquierda/derecha para experiencia inmersiva)
+    // Eventos de teclado
     function handleKeydown(e) {
         if (e.key === 'ArrowLeft') {
             e.preventDefault();
             if (!isAnimating && currentIndex > 0) goToPrevVerse();
-            if (isAutoActive) stopAutoPlay();  // interacción manual desactiva auto
+            if (isAutoActive) stopAutoPlay();
         } else if (e.key === 'ArrowRight') {
             e.preventDefault();
             if (!isAnimating && currentIndex < TOTAL_VERSES - 1) goToNextVerse();
@@ -483,19 +456,16 @@
         }
     }
 
-    // inicializar UI, listeners y mostrar primer verso con estilo
+    // inicializar
     function init() {
-        // setear contenido inicial
         verseDisplay.innerText = verses[0];
         currentIndex = 0;
         updateProgressAndCounter();
         updateButtonsState();
-        applyFinalGlow();
-        // asegurar clase inicial
+        applyPoemStyle();
         verseDisplay.classList.add('animate-in');
         verseDisplay.classList.remove('animate-out');
         
-        // Eventos de botones
         prevBtn.addEventListener('click', () => {
             if (isAutoActive) stopAutoPlay();
             goToPrevVerse();
@@ -513,12 +483,8 @@
         });
         
         window.addEventListener('keydown', handleKeydown);
-        
-        // pequeño efecto adicional: si el usuario hace hover suave, mantener elegancia
-        // opcional: agregar una leve vibración poética al final (sin exagerar)
     }
     
-    // Inicializar cuando el DOM esté cargado
     document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
