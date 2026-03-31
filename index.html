@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Flor Indispensable · Poema Eterno</title>
+    <!-- Google Fonts + Font Awesome 6 (CDN ligero) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none; /* solo para evitar selección accidental, no afecta lectura */
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at 30% 10%, #0b0a1a, #03020c);
+            background-attachment: fixed;
+            font-family: 'Cormorant Garamond', serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* sutiles pétalos flotantes (efecto atmosférico) */
+        .floating-petal {
+            position: fixed;
+            pointer-events: none;
+            background: rgba(245, 210, 190, 0.2);
+            border-radius: 80% 20% 70% 30% / 60% 50% 50% 40%;
+            filter: blur(3px);
+            z-index: 0;
+            animation: floatPetal 20s infinite ease-in-out;
+        }
+
+        @keyframes floatPetal {
+            0% { transform: translateY(0vh) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.6; }
+            80% { opacity: 0.4; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* contenedor principal elegante */
+        .poem-card {
+            position: relative;
+            z-index: 10;
+            max-width: 820px;
+            width: 100%;
+            background: rgba(15, 12, 30, 0.55);
+            backdrop-filter: blur(10px);
+            border-radius: 3rem;
+            padding: 2.5rem 2rem 2.2rem;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 220, 180, 0.1) inset;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(230, 200, 170, 0.2);
+        }
+
+        /* zona del poema con animaciones */
+        .verse-stage {
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .verse-text {
+            font-size: clamp(1.8rem, 6vw, 3.2rem);
+            font-weight: 500;
+            line-height: 1.35;
+            text-align: center;
+            color: #fef3e2;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            letter-spacing: -0.01em;
+            transition: opacity 0.45s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.4s ease;
+            word-break: break-word;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* animación de entrada (fade + leve desplazamiento) */
+        .verse-text.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .verse-text.animate-out {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+        /* estado base */
+        .verse-text {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* barra de progreso poética */
+        .progress-area {
+            margin: 1rem 0 2rem 0;
+        }
+
+        .progress-track {
+            background: rgba(220, 190, 150, 0.2);
+            border-radius: 40px;
+            height: 3px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #e7c8a0, #f3dbb5);
+            border-radius: 40px;
+            transition: width 0.4s ease-out;
+            box-shadow: 0 0 6px #ffdfb0;
+        }
+
+        .verse-counter {
+            text-align: center;
+            margin-top: 0.6rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            font-weight: 300;
+            color: #cfc6b0;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        /* botones elegantes */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 0.8rem;
+        }
+
+        .ctrl-btn {
+            background: rgba(20, 18, 40, 0.7);
+            border: 1px solid rgba(235, 205, 160, 0.4);
+            backdrop-filter: blur(4px);
+            padding: 0.7rem 1.4rem;
+            border-radius: 60px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+            color: #f7e9d7;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(6px);
+        }
+
+        .ctrl-btn i {
+            font-size: 1.1rem;
+            color: #f3d9b1;
+        }
+
+        .ctrl-btn:hover:not(:disabled) {
+            background: rgba(90, 70, 120, 0.7);
+            border-color: #eacd92;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+        }
+
+        .ctrl-btn:active:not(:disabled) {
+            transform: translateY(1px);
+        }
+
+        .ctrl-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            filter: grayscale(0.1);
+        }
+
+        .btn-primary {
+            background: rgba(140, 100, 80, 0.5);
+            border-color: #e0bc87;
+        }
+
+        .auto-active {
+            background: #c7a56e40;
+            border-color: #fad896;
+            box-shadow: 0 0 8px rgba(250, 200, 120, 0.4);
+        }
+
+        /* footer sutil */
+        .signature {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.7rem;
+            font-family: 'Inter', sans-serif;
+            color: #a7987c;
+            letter-spacing: 1px;
+            opacity: 0.6;
+        }
+
+        /* adaptación móvil */
+        @media (max-width: 560px) {
+            .poem-card {
+                padding: 1.8rem 1.2rem;
+            }
+            .ctrl-btn {
+                padding: 0.55rem 1rem;
+                font-size: 0.85rem;
+            }
+            .verse-stage {
+                min-height: 220px;
+            }
+        }
+
+        /* efecto sutil de brillo en el último verso */
+        .verse-text.final-glow {
+            text-shadow: 0 0 8px rgba(255, 215, 140, 0.7), 0 2px 8px rgba(0, 0, 0, 0.3);
+            transition: text-shadow 0.6s;
+        }
+
+        /* ocultar desbordes */
+        .no-scrollbar {
+            scrollbar-width: thin;
+        }
+    </style>
+</head>
+<body>
+
+<!-- pétalos flotantes decorativos generados dinámicamente con JS (5 elementos) -->
+<div class="floating-petal" style="width: 40px; height: 35px; left: 5%; top: 80%; animation-duration: 24s;"></div>
+<div class="floating-petal" style="width: 60px; height: 50px; left: 85%; top: 15%; animation-duration: 28s; animation-delay: -5s;"></div>
+<div class="floating-petal" style="width: 30px; height: 28px; left: 20%; top: 40%; animation-duration: 19s; animation-delay: -2s;"></div>
+<div class="floating-petal" style="width: 50px; height: 45px; left: 70%; top: 70%; animation-duration: 32s; animation-delay: -10s;"></div>
+<div class="floating-petal" style="width: 25px; height: 22px; left: 45%; top: 90%; animation-duration: 22s; animation-delay: -7s;"></div>
+
+<main class="poem-card">
+    <div class="verse-stage">
+        <div id="verseDisplay" class="verse-text animate-in">
+            <!-- el verso se inyecta desde JS -->
+            Flor indispensable… mi flor eterna, mi todo puro
+        </div>
+    </div>
+
+    <div class="progress-area">
+        <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="verse-counter" id="verseCounter">1 / 6</div>
+    </div>
+
+    <div class="controls">
+        <button class="ctrl-btn" id="prevBtn" aria-label="Verso anterior"><i class="fas fa-chevron-left"></i> <span>Anterior</span></button>
+        <button class="ctrl-btn" id="resetBtn" aria-label="Reiniciar poema"><i class="fas fa-leaf"></i> <span>Renacer</span></button>
+        <button class="ctrl-btn" id="nextBtn" aria-label="Siguiente verso"><span>Siguiente</span> <i class="fas fa-chevron-right"></i></button>
+        <button class="ctrl-btn" id="autoBtn" aria-label="Reproducción automática"><i class="fas fa-play"></i> <span>Auto</span></button>
+    </div>
+    <div class="signature">
+        ✦ poema del alma · flor eterna ✦
+    </div>
+</main>
+
+<script>
+    // ------------------------------
+    // POEMA: estrofas/versos secuenciales que culminan en la frase final
+    // ------------------------------
+    const verses = [
+        "En el jardín de mis silencios, brotas tú.",
+        "Pétalo a pétalo, abres caminos de luz.",
+        "Tu aroma, recuerdo que el alma susurra.",
+        "Eres el centro de mi primavera perpetua.",
+        "Sin ti, el tiempo se deshoja en ausencia.",
+        "Flor indispensable… mi flor eterna, mi todo puro"
+    ];
+
+    const TOTAL_VERSES = verses.length;
+    let currentIndex = 0;            // 0-index
+    let isAnimating = false;
+    let autoInterval = null;
+    let isAutoActive = false;
+
+    // DOM elements
+    const verseDisplay = document.getElementById('verseDisplay');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const autoBtn = document.getElementById('autoBtn');
+    const progressFill = document.getElementById('progressFill');
+    const verseCounterSpan = document.getElementById('verseCounter');
+
+    // función para actualizar barra de progreso y contador
+    function updateProgressAndCounter() {
+        const percent = ((currentIndex + 1) / TOTAL_VERSES) * 100;
+        progressFill.style.width = `${percent}%`;
+        verseCounterSpan.innerText = `${currentIndex + 1} / ${TOTAL_VERSES}`;
+    }
+
+    // manejo de glow final (efecto especial en último verso)
+    function applyFinalGlow() {
+        if (currentIndex === TOTAL_VERSES - 1) {
+            verseDisplay.classList.add('final-glow');
+        } else {
+            verseDisplay.classList.remove('final-glow');
+        }
+    }
+
+    // actualiza el estado de los botones (prev/next disabled según límites)
+    function updateButtonsState() {
+        if (currentIndex === 0) {
+            prevBtn.disabled = true;
+        } else {
+            prevBtn.disabled = false;
+        }
+
+        if (currentIndex === TOTAL_VERSES - 1) {
+            nextBtn.disabled = true;
+            // si el auto está activo y llegamos al final, detener automáticamente
+            if (isAutoActive) {
+                stopAutoPlay();
+            }
+        } else {
+            nextBtn.disabled = false;
+        }
+    }
+
+    // detener auto-play, limpiar intervalo y cambiar UI del botón
+    function stopAutoPlay() {
+        if (autoInterval) {
+            clearInterval(autoInterval);
+            autoInterval = null;
+        }
+        isAutoActive = false;
+        // restaurar estilo del botón
+        autoBtn.classList.remove('auto-active');
+        autoBtn.innerHTML = '<i class="fas fa-play"></i> <span>Auto</span>';
+    }
+
+    // iniciar auto-play (avanza cada 4.2 segundos, ritmo poético)
+    function startAutoPlay() {
+        if (autoInterval) stopAutoPlay();
+        // si ya estamos en el último verso, no iniciar auto
+        if (currentIndex === TOTAL_VERSES - 1) {
+            // no activar porque no hay siguiente
+            return;
+        }
+        isAutoActive = true;
+        autoBtn.classList.add('auto-active');
+        autoBtn.innerHTML = '<i class="fas fa-pause"></i> <span>Auto</span>';
+        autoInterval = setInterval(() => {
+            // si la animación está bloqueada o ya en último, no avanzamos
+            if (isAnimating) return;
+            if (currentIndex < TOTAL_VERSES - 1) {
+                goToNextVerse();
+            } else {
+                // llegó al final mientras estaba activo -> detener
+                if (currentIndex === TOTAL_VERSES - 1) {
+                    stopAutoPlay();
+                }
+            }
+        }, 4200);
+    }
+
+    // toggle auto: activar/desactivar
+    function toggleAutoPlay() {
+        if (isAutoActive) {
+            stopAutoPlay();
+        } else {
+            // solo si no está en el último verso se puede iniciar auto, sino no pasa nada
+            if (currentIndex === TOTAL_VERSES - 1) {
+                // opción elegante: no activar auto, pero podemos notificar visualmente con un leve "shake"? no necesario
+                return;
+            }
+            startAutoPlay();
+        }
+    }
+
+    // función central para cambiar el verso con animación suave (fade-out / fade-in)
+    function changeVerseWithAnimation(newIndex) {
+        if (isAnimating) return Promise.reject('Animating');
+        if (newIndex === currentIndex) return Promise.resolve();
+        if (newIndex < 0 || newIndex >= TOTAL_VERSES) return Promise.reject('Index out of range');
+
+        isAnimating = true;
+        
+        // 1. aplicar fade-out al texto actual
+        verseDisplay.classList.remove('animate-in');
+        verseDisplay.classList.add('animate-out');
+        
+        // 2. esperar la mitad de la transición para cambiar el contenido
+        setTimeout(() => {
+            // actualizar índice y contenido
+            currentIndex = newIndex;
+            verseDisplay.innerText = verses[currentIndex];
+            
+            // actualizar barra, contador y estados botones
+            updateProgressAndCounter();
+            updateButtonsState();
+            applyFinalGlow();
+            
+            // 3. quitar clase out y aplicar animate-in para fade-in elegante
+            verseDisplay.classList.remove('animate-out');
+            verseDisplay.classList.add('animate-in');
+            
+            // pequeña espera para completar la animación visual, luego liberar bloqueo
+            setTimeout(() => {
+                isAnimating = false;
+                // Si después del cambio, el auto-play estaba activo y hemos llegado al final, detener
+                if (isAutoActive && currentIndex === TOTAL_VERSES - 1) {
+                    stopAutoPlay();
+                }
+                // Si el auto-play está activo pero ahora estamos en el final, también detenemos antes.
+                if (isAutoActive && currentIndex === TOTAL_VERSES - 1) {
+                    stopAutoPlay();
+                }
+            }, 100);
+        }, 220); // tiempo justo para percibir desvanecimiento
+    }
+
+    // Navegación: siguiente
+    function goToNextVerse() {
+        if (isAnimating) return;
+        if (currentIndex + 1 < TOTAL_VERSES) {
+            changeVerseWithAnimation(currentIndex + 1);
+        } else {
+            // si es el último, no hace nada pero se deshabilita el botón
+            if (isAutoActive) stopAutoPlay();
+        }
+    }
+
+    // Navegación: anterior
+    function goToPrevVerse() {
+        if (isAnimating) return;
+        if (currentIndex - 1 >= 0) {
+            changeVerseWithAnimation(currentIndex - 1);
+        }
+    }
+
+    // Reiniciar: volver al primer verso
+    function resetPoem() {
+        if (isAnimating) return;
+        if (currentIndex === 0) return;
+        // Si auto está activo, se desactiva porque el usuario toma control
+        if (isAutoActive) {
+            stopAutoPlay();
+        }
+        changeVerseWithAnimation(0);
+    }
+
+    // Eventos de teclado (flechas izquierda/derecha para experiencia inmersiva)
+    function handleKeydown(e) {
+        if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            if (!isAnimating && currentIndex > 0) goToPrevVerse();
+            if (isAutoActive) stopAutoPlay();  // interacción manual desactiva auto
+        } else if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            if (!isAnimating && currentIndex < TOTAL_VERSES - 1) goToNextVerse();
+            if (isAutoActive) stopAutoPlay();
+        } else if (e.key === 'Home') {
+            e.preventDefault();
+            resetPoem();
+            if (isAutoActive) stopAutoPlay();
+        }
+    }
+
+    // inicializar UI, listeners y mostrar primer verso con estilo
+    function init() {
+        // setear contenido inicial
+        verseDisplay.innerText = verses[0];
+        currentIndex = 0;
+        updateProgressAndCounter();
+        updateButtonsState();
+        applyFinalGlow();
+        // asegurar clase inicial
+        verseDisplay.classList.add('animate-in');
+        verseDisplay.classList.remove('animate-out');
+        
+        // Eventos de botones
+        prevBtn.addEventListener('click', () => {
+            if (isAutoActive) stopAutoPlay();
+            goToPrevVerse();
+        });
+        nextBtn.addEventListener('click', () => {
+            if (isAutoActive) stopAutoPlay();
+            goToNextVerse();
+        });
+        resetBtn.addEventListener('click', () => {
+            if (isAutoActive) stopAutoPlay();
+            resetPoem();
+        });
+        autoBtn.addEventListener('click', () => {
+            toggleAutoPlay();
+        });
+        
+        window.addEventListener('keydown', handleKeydown);
+        
+        // pequeño efecto adicional: si el usuario hace hover suave, mantener elegancia
+        // opcional: agregar una leve vibración poética al final (sin exagerar)
+    }
+    
+    // Inicializar cuando el DOM esté cargado
+    document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
